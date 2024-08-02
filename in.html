@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Form</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form id="contactForm" method="post">
+      <h1>Services Form</h1>
+      <input type="text" name="name" id="name" placeholder="Name*" required />
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="Email*"
+        required
+      />
+      <input
+        type="tel"
+        name="number"
+        id="mobileNumber"
+        placeholder="Mobile Number*"
+        required
+      />
+      <input
+        type="text"
+        name="location"
+        id="location"
+        placeholder="Location*"
+        required
+      />
+      <select name="service" id="service" required="">
+        <option value="" disabled selected>Select a Service*</option>
+        <option value="Mobile Application Development">
+          Mobile Application Development
+        </option>
+        <option value="Website Development">Website Development</option>
+        <option value="Video Production">Video Production</option>
+        <option value="Logo Designing">Logo Designing</option>
+        <option value="Custom Software Development">
+          Custom Software Development
+        </option>
+        <option value="Search Engine Optimisation">
+          Search Engine Optimisation
+        </option>
+        <option value="Social Media Marketing">Social Media Marketing</option>
+      </select>
+      <textarea name="message" id="message" placeholder="Message"></textarea>
+      <button onclick="myFunction(event)" type="submit">SEND MESSAGE</button>
+    </form>
+    <script>
+      const data = {
+        name: "",
+        email: "",
+        mobileNumber: "",
+        location: "",
+        service: "",
+        message: "",
+      };
+
+      function myFunction(event) {
+        event.preventDefault();
+
+        data.name = document.getElementById("name").value;
+        data.email = document.getElementById("email").value;
+        data.mobileNumber = document.getElementById("mobileNumber").value;
+        data.location = document.getElementById("location").value;
+        data.service = document.getElementById("service").value;
+        data.message = document.getElementById("message").value;
+        fetch("https://milleniance-lms.onrender.com/api/v1/leads/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((res) => res.json())
+          .then((info) => {
+            console.log("Success", info);
+            alert("Data submitted successfully!");
+            location.reload();
+          });
+        console.error("Error:", error);
+        alert("There was an error submitting the data.");
+      }
+    </script>
+  </body>
+</html>
